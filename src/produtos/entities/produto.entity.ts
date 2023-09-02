@@ -1,14 +1,15 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn } from 'typeorm'
 
 export class Produto {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string
 
   @Column({ length: 500 })
-  descricao: string;
+  descricao: string
 
   @Column({ length: 500 })
-  marca: string;
+  marca: string
 
   @Column('double')
+  valor: number
 }

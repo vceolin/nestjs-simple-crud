@@ -2,7 +2,7 @@
   "name": "nestjs-simple-crud",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Vitor Ceolin",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -23,7 +23,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.1",
     "@nestjs/core": "^10.0.0",
-    "@nestjs/mapped-types": "*",
+    "@nestjs/mapped-types": "^2.0.2",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.1.10",
     "@nestjs/typeorm": "^10.0.0",
