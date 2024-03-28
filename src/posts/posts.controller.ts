@@ -1,15 +1,15 @@
-import { ProdutosService } from './produtos.service'
-import { CreateProdutoDto } from './dto/create-produto.dto'
-import { UpdateProdutoDto } from './dto/update-produto.dto'
+import { PostsService } from './posts.service'
+import { CreatePostDto } from './dto/create-post.dto'
+import { UpdatePostDto } from './dto/update-post.dto'
 import { Controller } from '@nestjs/common/decorators/core'
 import { Post, Body, Get, Param, Put, Delete } from '@nestjs/common/decorators/http'
 
 @Controller('produtos')
-export class ProdutosController {
-  constructor(private readonly produtosService: ProdutosService) {}
+export class PostsController {
+  constructor(private readonly produtosService: PostsService) {}
 
   @Post()
-  create(@Body() createProdutoDto: CreateProdutoDto) {
+  create(@Body() createProdutoDto: CreatePostDto) {
     return this.produtosService.create(createProdutoDto)
   }
 
@@ -24,7 +24,7 @@ export class ProdutosController {
   }
 
   @Put(':id')
-  update(@Body() updateProdutoDto: UpdateProdutoDto) {
+  update(@Body() updateProdutoDto: UpdatePostDto) {
     return this.produtosService.update(updateProdutoDto)
   }
 
