@@ -10,7 +10,7 @@ export class PostsController {
 
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
-    return this.produtosService.create(createPostDto)
+    return this.produtosService.create(createPostDto, '')
   }
 
   @Get()
@@ -25,7 +25,7 @@ export class PostsController {
 
   @Put(':id')
   update(@Body() updateProdutoDto: UpdatePostDto) {
-    return this.produtosService.update(updateProdutoDto)
+    return this.produtosService.update(updateProdutoDto, '')
   }
 
   @Delete(':id')
