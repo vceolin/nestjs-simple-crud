@@ -4,7 +4,7 @@ import { Body, Get, HttpCode, Post, Request } from '@nestjs/common/decorators/ht
 import { HttpStatus } from '@nestjs/common'
 import { SignInDto } from './dto/sign-in.dto'
 import { AuthGuard } from './auth.guard'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -16,6 +16,7 @@ export class AuthController {
     return this.authService.signIn(signInDto.email, signInDto.password)
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {

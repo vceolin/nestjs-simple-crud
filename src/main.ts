@@ -8,6 +8,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Social Network API')
     .setDescription('Simple API for simulating a social network.')
     .setVersion('1.0')
