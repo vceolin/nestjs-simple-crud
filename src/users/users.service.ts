@@ -30,4 +30,8 @@ export class UsersService {
   async findOne(id: string): Promise<User | undefined> {
     return this.users.find((user) => user.id === id)
   }
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return this.users.find((user) => user.email === email)
+  }
 }
