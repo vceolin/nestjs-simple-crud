@@ -9,8 +9,8 @@ export class PostsController {
   constructor(private readonly produtosService: PostsService) {}
 
   @Post()
-  create(@Body() createProdutoDto: CreatePostDto) {
-    return this.produtosService.create(createProdutoDto)
+  create(@Body() createPostDto: CreatePostDto) {
+    return this.produtosService.create(createPostDto)
   }
 
   @Get()

@@ -3,5 +3,5 @@ export class Post {
   user_id: string
   title: string
   text: string
-  num_likes: number
+  liked_by_user_ids: string[]
 }
