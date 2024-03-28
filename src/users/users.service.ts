@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common/decorators/core'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { nanoid } from 'nanoid'
-import { UpdatePostDto } from '@/posts/dto/update-post.dto'
 
 @Injectable()
 export class UsersService {
