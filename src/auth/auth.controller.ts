@@ -1,8 +1,9 @@
-import { Controller } from '@nestjs/common/decorators/core'
+import { Controller, UseGuards } from '@nestjs/common/decorators/core'
 import { AuthService } from './auth.service'
-import { Body, HttpCode, Post } from '@nestjs/common/decorators/http'
+import { Body, Get, HttpCode, Post, Request } from '@nestjs/common/decorators/http'
 import { HttpStatus } from '@nestjs/common'
 import { SignInDto } from './dto/sign-in.dto'
+import { AuthGuard } from './auth.guard'
 
 @Controller('auth')
 export class AuthController {
@@ -12,5 +13,11 @@ export class AuthController {
   @Post('login')
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto.email, signInDto.password)
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user
   }
 }
