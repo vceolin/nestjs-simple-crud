@@ -3,6 +3,7 @@ import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Post } from './entities/post.entity'
 import { nanoid } from 'nanoid'
+import { ForbiddenException, NotFoundException } from '@nestjs/common'
 
 @Injectable()
 export class PostsService {
@@ -63,12 +64,14 @@ export class PostsService {
 
   create(post: CreatePostDto, user_id: string) {
     const id = nanoid(7)
-    this.posts.push({
+    const newPost = {
       id,
       user_id,
       liked_by_user_ids: [],
       ...post
-    })
+    }
+    this.posts.push()
+    return newPost
   }
 
   findAll() {
@@ -76,17 +79,25 @@ export class PostsService {
   }
 
   findOne(id: string) {
-    return this.posts.find((produto) => produto.id === id)
+    const result = this.posts.find((produto) => produto.id === id)
+    if (!result) throw new NotFoundException('Post not found')
+    return result
   }
 
   update(post: UpdatePostDto, user_id: string) {
-    this.posts.map((existingPost) => (existingPost.id === post.id ? { post, ...existingPost } : existingPost))
-    return post
+    this.posts.map((existingPost) => {
+      if (existingPost.id !== post.id) return existingPost
+      if (existingPost.user_id !== user_id) throw new ForbiddenException("You can't update a post that not yours.")
+      return { post, ...existingPost }
+    })
+    return this.findOne(post.id)
   }
 
-  remove(id: string) {
+  remove(id: string, user_id: string) {
     this.posts = this.posts.filter((produto) => {
-      return produto.id !== id
+      if (produto.id !== id) return
+      if (produto.user_id !== user_id) throw new ForbiddenException("You can't delete a post that not yours.")
+      return true
     })
   }
 }

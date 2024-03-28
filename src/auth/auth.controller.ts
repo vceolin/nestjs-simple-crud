@@ -1,11 +1,11 @@
-import { Controller, UseGuards } from '@nestjs/common/decorators/core'
+import { Controller } from '@nestjs/common/decorators/core'
 import { AuthService } from './auth.service'
-import { Body, Get, HttpCode, Post, Request } from '@nestjs/common/decorators/http'
-import { HttpStatus } from '@nestjs/common'
+import { Body, Get, Post, Request } from '@nestjs/common/decorators/http'
 import { SignInDto } from './dto/sign-in.dto'
-import { AuthGuard } from './auth.guard'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { SkipAuth } from './skip-auth.decorator'
+import { SkipAuth } from './decorators/skip-auth.decorator'
+import { JwtUserEntity } from './entities/jwt-user.entity'
+import { AuthUser } from './decorators/auth-user.decorator'
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -19,7 +19,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Get('me')
-  getProfile(@Request() req) {
-    return req.user
+  getProfile(@AuthUser() user): JwtUserEntity {
+    return user
   }
 }
