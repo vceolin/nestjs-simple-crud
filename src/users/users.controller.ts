@@ -1,38 +1,45 @@
 import { Controller } from '@nestjs/common/decorators/core'
-import { Post, Body, Get, Param, Put } from '@nestjs/common/decorators/http'
+import { Post, Body, Get, Param, Patch } from '@nestjs/common/decorators/http'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { SkipAuth } from '@/auth/decorators/skip-auth.decorator'
 import { AuthUser } from '@/auth/decorators/auth-user.decorator'
 import { JwtUserEntity } from '@/auth/entities/jwt-user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UsersService } from './users.service'
+import { User } from './entities/user.entity'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiBearerAuth()
+  @SkipAuth()
   @Post()
-  create(@Body() createUserDto: CreateUserDto, @AuthUser() user: JwtUserEntity) {
-    return this.usersService.create(createUserDto, user.id)
+  create(@Body() createUserDto: CreateUserDto): Omit<User, 'password'> {
+    return this.usersService.create(createUserDto)
   }
 
   @SkipAuth()
   @Get()
-  findAll() {
+  findAll(): Omit<User, 'password'>[] {
     return this.usersService.findAll()
   }
 
   @SkipAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Omit<User, 'password'> {
     return this.usersService.findOne(id)
   }
 
   @ApiBearerAuth()
-  @Put(':id')
-  update(@Body() updateProdutoDto: CreateUserDto, @AuthUser() user: JwtUserEntity) {
+  @Patch(':id')
+  update(@Body() updateProdutoDto: UpdateUserDto, @AuthUser() user: JwtUserEntity): Omit<User, 'password'> {
     return this.usersService.update(updateProdutoDto, user.id)
+  }
+
+  @Get('follow/:id')
+  follow(@Param('id') id: string, @AuthUser() user: JwtUserEntity): Omit<User, 'password'> {
+    return this.usersService.follow(id, user.id)
   }
 }

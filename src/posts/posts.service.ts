@@ -81,12 +81,12 @@ export class PostsService {
     const now = new Date()
     const id = nanoid(7)
     const newPost = {
+      ...post,
       id,
       user_id,
       liked_by_user_ids: [],
       created_at: now,
       updated_at: now
-      ...post
     }
     this.posts.push(newPost)
     return newPost
@@ -122,14 +122,16 @@ export class PostsService {
 
   @ApiProperty({ description: "add or remove the user's like from a post, depending if you already liked it or not." })
   like(id: string, user_id: string): Post {
-    this.posts.map((existingPost) => {
-      if (existingPost.id !== id) return existingPost
-      const index = existingPost.liked_by_user_ids.indexOf(user_id)
-      if (index !== -1) existingPost.liked_by_user_ids.splice(index, 1)
-      else existingPost.liked_by_user_ids.push(user_id)
-
-      return { existingPost }
+    const postIndex = this.posts.findIndex((post) => {
+      post.id === id
     })
-    return this.findOne(id)
+    if (postIndex === -1) throw new NotFoundException()
+    const post = this.posts[postIndex]
+
+    const index = post.liked_by_user_ids.indexOf(user_id)
+    if (index !== -1) post.liked_by_user_ids.splice(index, 1)
+    else post.liked_by_user_ids.push(user_id)
+
+    return post
   }
 }

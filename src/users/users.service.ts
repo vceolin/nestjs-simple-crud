@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common/decorators/core'
 import { User } from './entities/user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { nanoid } from 'nanoid'
+import { BadRequestException, NotFoundException } from '@nestjs/common'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Injectable()
 export class UsersService {
@@ -41,25 +43,25 @@ export class UsersService {
     }
   ]
 
-  async findOne(id: string): Promise<Omit<User, 'password'> | undefined> {
+  findOne(id: string): Omit<User, 'password'> {
     const { password, ...rest } = this.users.find((user) => user.id === id)
     return rest
   }
 
-  async findOneByEmail(email: string): Promise<User | undefined> {
+  findOneByEmail(email: string): User | undefined {
     return this.users.find((user) => user.email === email)
   }
 
-  create(user: CreateUserDto, user_id: string) {
+  create(user: CreateUserDto) {
     const id = nanoid(7)
     const now = new Date()
     const newUser = {
+      ...user,
       id,
       created_at: now,
       updated_at: now,
       following: [],
-      followers: [],
-      ...user
+      followers: []
     }
     this.users.push(newUser)
     return this.findOne(id)
@@ -72,12 +74,35 @@ export class UsersService {
     })
   }
 
-  update(user: CreateUserDto, user_id: string) {
+  update(user: UpdateUserDto, user_id: string): Omit<User, 'password'> {
     this.users.map((existingUser) => {
       if (existingUser.id !== user_id) return existingUser
       const now = new Date()
-      return { existingUser, updated_at: now, ...user }
+      return { existingUser, ...user, updated_at: now }
     })
     return this.findOne(user_id)
+  }
+
+  follow(target_id: string, user_id: string): User {
+    if (user_id === target_id) throw new BadRequestException("You can't follow yourself!")
+    const userIndex = this.users.findIndex((user) => {
+      user.id === user_id
+    })
+    const targetUserIndex = this.users.findIndex((user) => {
+      user.id === target_id
+    })
+    if (targetUserIndex === -1) throw new NotFoundException()
+
+    const user = this.users[userIndex]
+    const following_index = user.following.indexOf(target_id)
+    if (following_index !== -1) user.following.splice(following_index, 1)
+    else user.following.push(user_id)
+
+    const target_user = this.users[targetUserIndex]
+    const follower_index = target_user.followers.indexOf(target_id)
+    if (follower_index !== -1) target_user.followers.splice(follower_index, 1)
+    else target_user.followers.push(user_id)
+
+    return target_user
   }
 }

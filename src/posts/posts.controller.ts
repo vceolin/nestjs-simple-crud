@@ -2,7 +2,7 @@ import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Controller } from '@nestjs/common/decorators/core'
-import { Post, Body, Get, Param, Put, Delete, HttpCode } from '@nestjs/common/decorators/http'
+import { Post, Body, Get, Param, Delete, HttpCode, Patch } from '@nestjs/common/decorators/http'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { SkipAuth } from '@/auth/decorators/skip-auth.decorator'
 import { AuthUser } from '@/auth/decorators/auth-user.decorator'
@@ -32,7 +32,7 @@ export class PostsController {
   }
 
   @ApiBearerAuth()
-  @Put(':id')
+  @Patch(':id')
   update(@Body() updateProdutoDto: UpdatePostDto, @AuthUser() user: JwtUserEntity) {
     return this.produtosService.update(updateProdutoDto, user.id)
   }
