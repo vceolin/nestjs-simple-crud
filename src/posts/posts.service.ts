@@ -4,6 +4,7 @@ import { UpdatePostDto } from './dto/update-post.dto'
 import { Post } from './entities/post.entity'
 import { nanoid } from 'nanoid'
 import { ForbiddenException, NotFoundException } from '@nestjs/common'
+import { ApiProperty } from '@nestjs/swagger'
 
 @Injectable()
 export class PostsService {
@@ -88,16 +89,30 @@ export class PostsService {
     this.posts.map((existingPost) => {
       if (existingPost.id !== post.id) return existingPost
       if (existingPost.user_id !== user_id) throw new ForbiddenException("You can't update a post that not yours.")
-      return { post, ...existingPost }
+      return { existingPost, ...post }
     })
     return this.findOne(post.id)
   }
 
   remove(id: string, user_id: string) {
+    this.findOne(id)
     this.posts = this.posts.filter((produto) => {
       if (produto.id !== id) return
       if (produto.user_id !== user_id) throw new ForbiddenException("You can't delete a post that not yours.")
       return true
     })
+  }
+
+  @ApiProperty({ description: "add or remove the user's like from a post, depending if you already liked it or not." })
+  like(id: string, user_id: string): Post {
+    this.posts.map((existingPost) => {
+      if (existingPost.id !== id) return existingPost
+      const index = existingPost.liked_by_user_ids.indexOf(user_id)
+      if (index !== -1) existingPost.liked_by_user_ids.splice(index, 1)
+      else existingPost.liked_by_user_ids.push(user_id)
+
+      return { existingPost }
+    })
+    return this.findOne(id)
   }
 }
