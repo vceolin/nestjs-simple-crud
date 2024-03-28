@@ -3,8 +3,10 @@ import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Controller } from '@nestjs/common/decorators/core'
 import { Post, Body, Get, Param, Put, Delete } from '@nestjs/common/decorators/http'
+import { ApiTags } from '@nestjs/swagger'
 
-@Controller('produtos')
+@ApiTags('posts')
+@Controller('posts')
 export class PostsController {
   constructor(private readonly produtosService: PostsService) {}
 
