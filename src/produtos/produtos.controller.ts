@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common'
 import { ProdutosService } from './produtos.service'
 import { CreateProdutoDto } from './dto/create-produto.dto'
 import { UpdateProdutoDto } from './dto/update-produto.dto'
+import { Controller } from '@nestjs/common/decorators/core'
+import { Post, Body, Get, Param, Put, Delete } from '@nestjs/common/decorators/http'
 
 @Controller('produtos')
 export class ProdutosController {
