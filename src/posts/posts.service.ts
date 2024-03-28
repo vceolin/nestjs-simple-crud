@@ -16,62 +16,79 @@ export class PostsService {
         user_id: '1',
         title: 'O Melhor Dia da Minha Vida',
         text: 'Hoje fui ao parque e tive uma experiência incrível!',
-        liked_by_user_ids: []
+        liked_by_user_ids: [],
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: '2',
         user_id: '1',
         title: 'Minha Viagem à Europa',
         text: 'Estou compartilhando algumas fotos da minha viagem pela Europa!',
-        liked_by_user_ids: ['1', '2']
+        liked_by_user_ids: ['1', '2'],
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: '3',
         user_id: '1',
         title: 'Nova Receita Deliciosa',
         text: 'Acabei de preparar uma nova receita e ficou incrível! Aqui está a receita...',
-        liked_by_user_ids: ['1', '2']
+        liked_by_user_ids: ['1', '2'],
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: '4',
         user_id: '2',
         title: 'Reflexões sobre a Vida',
         text: 'Às vezes, é bom parar e refletir sobre o que realmente importa na vida.',
-        liked_by_user_ids: ['1', '2', '3']
+        liked_by_user_ids: ['1', '2', '3'],
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: '5',
         user_id: '2',
         title: 'Fotos do Pôr do Sol',
         text: 'Aqui estão algumas fotos deslumbrantes do pôr do sol que capturei hoje à noite.',
-        liked_by_user_ids: ['1', '2', '3']
+        liked_by_user_ids: ['1', '2', '3'],
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: '6',
         user_id: '2',
         title: 'Minha Paixão por Fotografia',
         text: 'Compartilhando algumas das minhas fotos favoritas que tirei recentemente.',
-        liked_by_user_ids: ['1', '2', '3']
+        liked_by_user_ids: ['1', '2', '3'],
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: '7',
         user_id: '3',
         title: 'Aventuras ao Ar Livre',
         text: 'Explorando trilhas e montanhas - a natureza sempre nos surpreende!',
-        liked_by_user_ids: ['1', '2', '3']
+        liked_by_user_ids: ['1', '2', '3'],
+        created_at: new Date(),
+        updated_at: new Date()
       }
     ]
   }
 
   create(post: CreatePostDto, user_id: string) {
+    const now = new Date()
     const id = nanoid(7)
     const newPost = {
       id,
       user_id,
       liked_by_user_ids: [],
+      created_at: now,
+      updated_at: now
       ...post
     }
-    this.posts.push()
+    this.posts.push(newPost)
     return newPost
   }
 
