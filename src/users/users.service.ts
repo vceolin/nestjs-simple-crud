@@ -13,7 +13,9 @@ export class UsersService {
       email: 'joao@example.com',
       password: 'senha123',
       created_at: new Date(),
-      updated_at: new Date()
+      updated_at: new Date(),
+      followers: ['2', '3'],
+      following: ['2', '3']
     },
     {
       id: '2',
@@ -22,7 +24,9 @@ export class UsersService {
       email: 'maria@example.com',
       password: 'senha456',
       created_at: new Date(),
-      updated_at: new Date()
+      updated_at: new Date(),
+      followers: ['1'],
+      following: ['1', '3']
     },
     {
       id: '3',
@@ -31,7 +35,9 @@ export class UsersService {
       email: 'pedro@example.com',
       password: 'senha789',
       created_at: new Date(),
-      updated_at: new Date()
+      updated_at: new Date(),
+      followers: ['1', '2'],
+      following: ['1']
     }
   ]
 
@@ -51,6 +57,8 @@ export class UsersService {
       id,
       created_at: now,
       updated_at: now,
+      following: [],
+      followers: [],
       ...user
     }
     this.users.push(newUser)
