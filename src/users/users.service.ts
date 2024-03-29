@@ -85,12 +85,8 @@ export class UsersService {
 
   follow(target_id: string, user_id: string): User {
     if (user_id === target_id) throw new BadRequestException("You can't follow yourself!")
-    const userIndex = this.users.findIndex((user) => {
-      user.id === user_id
-    })
-    const targetUserIndex = this.users.findIndex((user) => {
-      user.id === target_id
-    })
+    const userIndex = this.users.findIndex((user) => user.id === user_id)
+    const targetUserIndex = this.users.findIndex((user) => user.id === target_id)
     if (targetUserIndex === -1) throw new NotFoundException()
 
     const user = this.users[userIndex]
@@ -99,7 +95,7 @@ export class UsersService {
     else user.following.push(user_id)
 
     const target_user = this.users[targetUserIndex]
-    const follower_index = target_user.followers.indexOf(target_id)
+    const follower_index = target_user.followers.indexOf(user_id)
     if (follower_index !== -1) target_user.followers.splice(follower_index, 1)
     else target_user.followers.push(user_id)
 

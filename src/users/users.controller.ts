@@ -38,6 +38,7 @@ export class UsersController {
     return this.usersService.update(updateProdutoDto, user.id)
   }
 
+  @ApiBearerAuth()
   @Get('follow/:id')
   follow(@Param('id') id: string, @AuthUser() user: JwtUserEntity): Omit<User, 'password'> {
     return this.usersService.follow(id, user.id)
