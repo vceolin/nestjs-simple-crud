@@ -47,8 +47,8 @@ export class CommentsService {
     return newComment
   }
 
-  findAll() {
-    return this.comments
+  findAll(post_id: string) {
+    return this.comments.filter((post) => post_id === post.id)
   }
 
   findOne(id: string): Comment {

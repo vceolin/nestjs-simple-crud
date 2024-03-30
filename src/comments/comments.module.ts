@@ -6,4 +6,4 @@ import { Module } from '@nestjs/common/decorators/modules'
   controllers: [CommentsController],
   providers: [CommentsService]
 })
-export class PostsModule {}
+export class CommentsModule {}

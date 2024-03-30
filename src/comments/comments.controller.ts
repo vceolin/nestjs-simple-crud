@@ -9,7 +9,7 @@ import { AuthUser } from '@/auth/decorators/auth-user.decorator'
 import { JwtUserEntity } from '@/auth/entities/jwt-user.entity'
 
 @ApiTags('comments')
-@Controller('comments')
+@Controller('/posts/:post_id/comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
@@ -21,8 +21,8 @@ export class CommentsController {
 
   @SkipAuth()
   @Get()
-  findAll() {
-    return this.commentsService.findAll()
+  findAll(@Param('post_id') post_id: string) {
+    return this.commentsService.findAll(post_id)
   }
 
   @SkipAuth()
