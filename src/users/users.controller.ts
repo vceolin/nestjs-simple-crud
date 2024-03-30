@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common/decorators/core'
-import { Post, Body, Get, Param, Patch } from '@nestjs/common/decorators/http'
+import { publication, Body, Get, Param, Patch } from '@nestjs/common/decorators/http'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { SkipAuth } from '@/auth/decorators/skip-auth.decorator'
 import { AuthUser } from '@/auth/decorators/auth-user.decorator'
@@ -15,7 +15,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @SkipAuth()
-  @Post()
+  @publication()
   create(@Body() createUserDto: CreateUserDto): Omit<User, 'password'> {
     return this.usersService.create(createUserDto)
   }

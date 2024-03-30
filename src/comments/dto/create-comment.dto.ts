@@ -3,7 +3,7 @@ import { IsOptional, IsString, Length } from 'class-validator'
 
 export class CreateCommentDto {
   @ApiHideProperty()
-  post_id: string
+  publication_id: string
   @IsString()
   @Length(1, 500)
   text: string

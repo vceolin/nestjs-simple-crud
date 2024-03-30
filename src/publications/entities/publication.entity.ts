@@ -1,4 +1,4 @@
-export class Post {
+export class Publication {
   id: string
   created_at: Date
   updated_at: Date

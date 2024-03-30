@@ -1,6 +1,6 @@
 import { IsString, Length } from 'class-validator'
 
-export class CreatePostDto {
+export class CreatePublicationDto {
   @IsString()
   @Length(3, 20)
   title: string

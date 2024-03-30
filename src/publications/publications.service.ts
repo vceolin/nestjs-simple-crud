@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common/decorators/core'
-import { CreatePostDto } from './dto/create-post.dto'
-import { UpdatePostDto } from './dto/update-post.dto'
-import { Post } from './entities/post.entity'
+import { CreatePublicationDto } from './dto/create-publication.dto'
+import { UpdatePublicationDto } from './dto/update-publication.dto'
+import { Publication } from './entities/publication.entity'
 import { nanoid } from 'nanoid'
 import { ForbiddenException, NotFoundException } from '@nestjs/common'
 import { ApiProperty } from '@nestjs/swagger'
 
 @Injectable()
-export class PostsService {
-  private posts: Post[]
+export class PublicationsService {
+  private publications: Publication[]
   constructor() {
-    this.posts = [
+    this.publications = [
       {
         id: '1',
         user_id: '1',
@@ -77,61 +77,65 @@ export class PostsService {
     ]
   }
 
-  create(post: CreatePostDto, user_id: string) {
+  create(publication: CreatePublicationDto, user_id: string) {
     const now = new Date()
     const id = nanoid(7)
-    const newPost = {
-      ...post,
+    const newpublication = {
+      ...publication,
       id,
       user_id,
       liked_by_user_ids: [],
       created_at: now,
       updated_at: now
     }
-    this.posts.push(newPost)
-    return newPost
+    this.publications.push(newpublication)
+    return newpublication
   }
 
   findAll() {
-    return this.posts
+    return this.publications
   }
 
   findOne(id: string) {
-    const result = this.posts.find((post) => post.id === id)
-    if (!result) throw new NotFoundException('Post not found')
+    const result = this.publications.find((publication) => publication.id === id)
+    if (!result) throw new NotFoundException('publication not found')
     return result
   }
 
-  update(post: UpdatePostDto, user_id: string) {
-    this.posts.map((existingPost) => {
-      if (existingPost.id !== post.id) return existingPost
-      if (existingPost.user_id !== user_id) throw new ForbiddenException("You can't update a post that not yours.")
-      return { existingPost, ...post }
+  update(publication: UpdatePublicationDto, user_id: string) {
+    this.publications.map((existingpublication) => {
+      if (existingpublication.id !== publication.id) return existingpublication
+      if (existingpublication.user_id !== user_id)
+        throw new ForbiddenException("You can't update a publication that not yours.")
+      return { existingpublication, ...publication }
     })
-    return this.findOne(post.id)
+    return this.findOne(publication.id)
   }
 
   remove(id: string, user_id: string) {
     this.findOne(id)
-    this.posts = this.posts.filter((post) => {
-      if (post.id !== id) return
-      if (post.user_id !== user_id) throw new ForbiddenException("You can't delete a post that not yours.")
+    this.publications = this.publications.filter((publication) => {
+      if (publication.id !== id) return
+      if (publication.user_id !== user_id)
+        throw new ForbiddenException("You can't delete a publication that not yours.")
       return true
     })
   }
 
-  @ApiProperty({ description: "add or remove the user's like from a post, depending if you already liked it or not." })
-  like(id: string, user_id: string): Post {
-    const postIndex = this.posts.findIndex((post) => {
-      post.id === id
+  @ApiProperty({
+    description: "add or remove the user's like from a publication, depending if you already liked it or not."
+  })
+  like(id: string, user_id: string): Publication {
+    const publicationIndex = this.publications.findIndex((publication) => {
+      publication.id === id
     })
-    if (postIndex === -1) throw new NotFoundException()
-    const post = this.posts[postIndex]
+    if (publicationIndex === -1) throw new NotFoundException()
+    const publication = this.publications[publicationIndex]
 
-    const index = post.liked_by_user_ids.indexOf(user_id)
-    if (index !== -1) post.liked_by_user_ids.splice(index, 1)
-    else post.liked_by_user_ids.push(user_id)
+    const index = publication.liked_by_user_ids.indexOf(user_id)
+    if (index !== -1) publication.liked_by_user_ids.splice(index, 1)
+    else publication.liked_by_user_ids.push(user_id)
 
-    return post
+    return publication
   }
 }

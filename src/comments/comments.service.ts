@@ -13,7 +13,7 @@ export class CommentsService {
       {
         id: '1',
         user_id: '2',
-        post_id: '1',
+        publication_id: '1',
         text: 'Que massa! Parabéns!',
         liked_by_user_ids: [],
         created_at: new Date(),
@@ -22,7 +22,7 @@ export class CommentsService {
       {
         id: '2',
         user_id: '3',
-        post_id: '1',
+        publication_id: '1',
         text: 'Comprou algo pra mim?',
         in_reply_to: '2',
         liked_by_user_ids: ['1', '2'],
@@ -47,13 +47,13 @@ export class CommentsService {
     return newComment
   }
 
-  findAll(post_id: string) {
-    return this.comments.filter((post) => post_id === post.id)
+  findAll(publication_id: string) {
+    return this.comments.filter((publication) => publication_id === publication.id)
   }
 
   findOne(id: string): Comment {
     const result = this.comments.find((comment) => comment.id === id)
-    if (!result) throw new NotFoundException('Post not found')
+    if (!result) throw new NotFoundException('publication not found')
     return result
   }
 
