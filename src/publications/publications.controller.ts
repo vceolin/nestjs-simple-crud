@@ -59,7 +59,8 @@ export class PublicationsController {
 
   private applyHateoas(publication: Publication): ReturnPublicationDto {
     const comments = `${process.env.HOST}/publications/${publication.id}/comments`
-    const publicationWithHateoas: ReturnPublicationDto = { ...publication, comments }
+    const user = `${process.env.HOST}/users/${publication.user_id}`
+    const publicationWithHateoas: ReturnPublicationDto = { ...publication, comments, user }
     return publicationWithHateoas
   }
 }
