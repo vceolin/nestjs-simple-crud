@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common/decorators/core'
-import { CreatePostDto as CreateCommentDto } from './dto/create-comment.dto'
-import { UpdatePostDto as UpdateCommentDto } from './dto/update-comment.dto'
+import { CreateCommentDto as CreateCommentDto } from './dto/create-comment.dto'
+import { UpdateCommentDto as UpdateCommentDto } from './dto/update-comment.dto'
 import { Comment } from './entities/comment.entity'
 import { nanoid } from 'nanoid'
 import { ForbiddenException, NotFoundException } from '@nestjs/common'
@@ -57,13 +57,14 @@ export class CommentsService {
     return result
   }
 
-  update(post: UpdateCommentDto, user_id: string): Comment {
-    this.comments.map((existingPost) => {
-      if (existingPost.id !== post.id) return existingPost
-      if (existingPost.user_id !== user_id) throw new ForbiddenException("You can't update a post that not yours.")
-      return { existingPost, ...post }
+  update(comment: UpdateCommentDto, user_id: string): Comment {
+    this.comments.map((existingComment) => {
+      if (existingComment.id !== comment.id) return existingComment
+      if (existingComment.user_id !== user_id)
+        throw new ForbiddenException("You can't update a comment that not yours.")
+      return { existingComment, ...comment }
     })
-    return this.findOne(post.id)
+    return this.findOne(comment.id)
   }
 
   remove(id: string, user_id: string) {
@@ -76,16 +77,16 @@ export class CommentsService {
   }
 
   like(id: string, user_id: string): Comment {
-    const postIndex = this.comments.findIndex((post) => {
-      post.id === id
+    const commentIndex = this.comments.findIndex((comment) => {
+      comment.id === id
     })
-    if (postIndex === -1) throw new NotFoundException()
-    const post = this.comments[postIndex]
+    if (commentIndex === -1) throw new NotFoundException()
+    const comment = this.comments[commentIndex]
 
-    const index = post.liked_by_user_ids.indexOf(user_id)
-    if (index !== -1) post.liked_by_user_ids.splice(index, 1)
-    else post.liked_by_user_ids.push(user_id)
+    const index = comment.liked_by_user_ids.indexOf(user_id)
+    if (index !== -1) comment.liked_by_user_ids.splice(index, 1)
+    else comment.liked_by_user_ids.push(user_id)
 
-    return post
+    return comment
   }
 }

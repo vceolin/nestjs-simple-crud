@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types'
-import { CreatePostDto } from './create-comment.dto'
+import { CreateCommentDto } from './create-comment.dto'
 
-export class UpdatePostDto extends PartialType(CreatePostDto) {
+export class UpdateCommentDto extends PartialType(CreateCommentDto) {
   id: string
 }
