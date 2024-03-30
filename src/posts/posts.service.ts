@@ -97,7 +97,7 @@ export class PostsService {
   }
 
   findOne(id: string) {
-    const result = this.posts.find((produto) => produto.id === id)
+    const result = this.posts.find((post) => post.id === id)
     if (!result) throw new NotFoundException('Post not found')
     return result
   }
@@ -113,9 +113,9 @@ export class PostsService {
 
   remove(id: string, user_id: string) {
     this.findOne(id)
-    this.posts = this.posts.filter((produto) => {
-      if (produto.id !== id) return
-      if (produto.user_id !== user_id) throw new ForbiddenException("You can't delete a post that not yours.")
+    this.posts = this.posts.filter((post) => {
+      if (post.id !== id) return
+      if (post.user_id !== user_id) throw new ForbiddenException("You can't delete a post that not yours.")
       return true
     })
   }

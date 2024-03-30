@@ -33,8 +33,8 @@ export class CommentsController {
 
   @ApiBearerAuth()
   @Patch(':id')
-  update(@Body() updateProdutoDto: UpdateCommentDto, @AuthUser() user: JwtUserEntity) {
-    return this.commentsService.update(updateProdutoDto, user.id)
+  update(@Body() updateCommentDto: UpdateCommentDto, @AuthUser() user: JwtUserEntity) {
+    return this.commentsService.update(updateCommentDto, user.id)
   }
 
   @ApiBearerAuth()

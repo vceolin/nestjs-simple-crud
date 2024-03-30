@@ -52,7 +52,7 @@ export class CommentsService {
   }
 
   findOne(id: string): Comment {
-    const result = this.comments.find((produto) => produto.id === id)
+    const result = this.comments.find((comment) => comment.id === id)
     if (!result) throw new NotFoundException('Post not found')
     return result
   }
@@ -69,9 +69,9 @@ export class CommentsService {
 
   remove(id: string, user_id: string) {
     this.findOne(id)
-    this.comments = this.comments.filter((produto) => {
-      if (produto.id !== id) return
-      if (produto.user_id !== user_id) throw new ForbiddenException("You can't delete a comment that not yours.")
+    this.comments = this.comments.filter((comment) => {
+      if (comment.id !== id) return
+      if (comment.user_id !== user_id) throw new ForbiddenException("You can't delete a comment that not yours.")
       return true
     })
   }

@@ -11,42 +11,42 @@ import { JwtUserEntity } from '@/auth/entities/jwt-user.entity'
 @ApiTags('posts')
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly produtosService: PostsService) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @ApiBearerAuth()
   @Post()
   create(@Body() createPostDto: CreatePostDto, @AuthUser() user: JwtUserEntity) {
-    return this.produtosService.create(createPostDto, user.id)
+    return this.postsService.create(createPostDto, user.id)
   }
 
   @SkipAuth()
   @Get()
   findAll() {
-    return this.produtosService.findAll()
+    return this.postsService.findAll()
   }
 
   @SkipAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.produtosService.findOne(id)
+    return this.postsService.findOne(id)
   }
 
   @ApiBearerAuth()
   @Patch(':id')
-  update(@Body() updateProdutoDto: UpdatePostDto, @AuthUser() user: JwtUserEntity) {
-    return this.produtosService.update(updateProdutoDto, user.id)
+  update(@Body() updatePostDto: UpdatePostDto, @AuthUser() user: JwtUserEntity) {
+    return this.postsService.update(updatePostDto, user.id)
   }
 
   @ApiBearerAuth()
   @HttpCode(204)
   @Delete(':id')
   remove(@Param('id') id: string, @AuthUser() user: JwtUserEntity) {
-    return this.produtosService.remove(id, user.id)
+    return this.postsService.remove(id, user.id)
   }
 
   @ApiBearerAuth()
   @Get('like/:id')
   like(@Param('id') id: string, @AuthUser() user: JwtUserEntity) {
-    return this.produtosService.like(id, user.id)
+    return this.postsService.like(id, user.id)
   }
 }
