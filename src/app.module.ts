@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
 import { MiddlewareConsumer, NestModule } from '@nestjs/common'
 import { AppLoggerMiddleware } from './logger/logger.middleware'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [PostsModule, AuthModule, UsersModule],
+  imports: [PostsModule, AuthModule, UsersModule, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService]
 })
