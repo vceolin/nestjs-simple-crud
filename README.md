@@ -21,13 +21,13 @@ A simple social network API created for training concepts like authentication, a
 1. Download the image
 
 ```
-docker pull vceolin/social-network-api:v0.1.0
+docker pull vceolin/social-network-api
 ```
 
 2. Run it!
 
 ```
-docker run -p 3000:3000 social-network-api
+docker run -p 3000:3000 vceolin/social-network-api
 ```
 
 ### Setting up the docker image yourself
