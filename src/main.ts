@@ -10,7 +10,9 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .addBearerAuth()
     .setTitle('Social Network API')
-    .setDescription('Simple API for simulating a social network.')
+    .setDescription(
+      'A simple social network API created for training concepts like authentication, authorization, HATEOAS, encryption, openAPI, containers, etc.'
+    )
     .setVersion('1.0')
     .build()
   const document = SwaggerModule.createDocument(app, config)

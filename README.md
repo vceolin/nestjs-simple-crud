@@ -1,37 +1,68 @@
-# Nestjs Simple Crud
+# Social Network API
 
-Uma CRUD básico de produtos usando NestJS, para ser usado como exemplo.
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-## Configuração
+A simple social network API created for training concepts like authentication, authorization, HATEOAS, encryption, openAPI, containers, etc.
 
-Certifique-se de ter o Node.js instalado em seu sistema.
+## Features
 
-1. Clone o repositório:
+- Authentication and authorization mechanisms
+- HATEOAS support for RESTful interactions
+- Encryption for securing sensitive data
+- OpenAPI documentation with Swagger
+- Containerized with Docker
 
-   ```bash
-   git clone https://github.com/vceolin/nestjs-simple-crud.git
-   ```
+## Getting started
 
-2. Instale as dependências:
+### Downloading from Docker Hub
 
-   ```bash
-   yarn install
-   ```
-   
-4. Inicie o servidor:
+1. Download the image
 
-   ```bash
-   yarn start
-   ```
+```
+docker pull vceolin/social-network-api:v0.1.0
+```
 
-A API estará acessível em `http://localhost:3000`.
+2. Run it!
 
-## Swagger
-O swagger da aplicação está disponível na rota `/api`
+```
+docker run -p 3000:3000 social-network-api
+```
 
-## Licença
+### Setting up the docker image yourself
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+If you prefer, you can setup the docker image locally:
+
+1. Build the Dockerfile
+
+```
+docker build -t social-network-api .
+```
+
+2. Run it!
+
+```
+docker run -p 3000:3000 social-network-api
+```
+
+### Running without Docker
+
+After making sure you have `nodejs` and `yarn` installed, you need to first install the dependencies:
+
+```
+yarn install
+```
+
+Then you can simply run:
+
+```
+yarn start
+```
+
+## Usage
+
+After running the application, Swagger will be available @ `http://localhost:3000`.
 
 ---
 
