@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { nanoid } from 'nanoid'
 import { BadRequestException, NotFoundException } from '@nestjs/common'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { PaginationDto } from '@/common/pagination'
 
 @Injectable()
 export class UsersService {
@@ -67,8 +68,10 @@ export class UsersService {
     return this.findOne(id)
   }
 
-  findAll() {
-    return this.users.map((user) => {
+  findAll(pagination: PaginationDto) {
+    const skip = pagination.page_number * pagination.page_size
+    const filteredUsers = this.users.slice(skip, skip + pagination.page_size)
+    return filteredUsers.map((user) => {
       const { password, ...rest } = user
       return rest
     })

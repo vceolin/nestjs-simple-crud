@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common/decorators/core'
-import { Post, Body, Get, Param, Patch } from '@nestjs/common/decorators/http'
+import { Post, Body, Get, Param, Patch, Query } from '@nestjs/common/decorators/http'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { SkipAuth } from '@/auth/decorators/skip-auth.decorator'
 import { AuthUser } from '@/auth/decorators/auth-user.decorator'
@@ -8,6 +8,8 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { PaginationDto } from '@/common/pagination'
+import { ValidationPipe } from '@nestjs/common'
 
 @ApiTags('users')
 @Controller('users')
@@ -22,8 +24,9 @@ export class UsersController {
 
   @SkipAuth()
   @Get()
-  findAll(): Omit<User, 'password'>[] {
-    return this.usersService.findAll()
+  findAll(@Query() pagination: PaginationDto): Omit<User, 'password'>[] {
+    console.log(pagination)
+    return this.usersService.findAll(pagination)
   }
 
   @SkipAuth()
