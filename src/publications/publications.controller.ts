@@ -18,39 +18,48 @@ export class PublicationsController {
   @ApiBearerAuth()
   @Post()
   create(@Body() createPublicationDto: CreatePublicationDto, @AuthUser() user: JwtUserEntity): ReturnPublicationDto {
-    return this.publicationsService.create(createPublicationDto, user.id)
+    const publication = this.publicationsService.create(createPublicationDto, user.id)
+    return this.applyHateoas(publication)
   }
 
   @SkipAuth()
   @Get()
   findAll(): ReturnPublicationDto[] {
-    return this.publicationsService.findAll()
+    const publications = this.publicationsService.findAll()
+    return publications.map((publication) => this.applyHateoas(publication))
   }
 
   @SkipAuth()
   @Get(':id')
   findOne(@Param('id') id: string): ReturnPublicationDto {
-    return this.publicationsService.findOne(id)
+    const publication = this.publicationsService.findOne(id)
+    return this.applyHateoas(publication)
   }
 
   @ApiBearerAuth()
   @Patch(':id')
   update(@Body() updatePublicationDto: UpdatePublicationDto, @AuthUser() user: JwtUserEntity): ReturnPublicationDto {
-    return this.publicationsService.update(updatePublicationDto, user.id)
+    const publication = this.publicationsService.update(updatePublicationDto, user.id)
+    return this.applyHateoas(publication)
   }
 
   @ApiBearerAuth()
   @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string, @AuthUser() user: JwtUserEntity): ReturnPublicationDto {
+  remove(@Param('id') id: string, @AuthUser() user: JwtUserEntity) {
     return this.publicationsService.remove(id, user.id)
   }
 
   @ApiBearerAuth()
   @Get('like/:id')
   like(@Param('id') id: string, @AuthUser() user: JwtUserEntity): ReturnPublicationDto {
-    return this.publicationsService.like(id, user.id)
+    const publication = this.publicationsService.like(id, user.id)
+    return this.applyHateoas(publication)
   }
 
-  private applyHateoas(publication: Publication): ReturnPublicationDto {}
+  private applyHateoas(publication: Publication): ReturnPublicationDto {
+    const comments = `${process.env.HOST}/publications/${publication.id}/comments`
+    const publicationWithHateoas: ReturnPublicationDto = { ...publication, comments }
+    return publicationWithHateoas
+  }
 }
