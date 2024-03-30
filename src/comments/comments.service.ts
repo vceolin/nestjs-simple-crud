@@ -4,6 +4,7 @@ import { UpdateCommentDto as UpdateCommentDto } from './dto/update-comment.dto'
 import { Comment } from './entities/comment.entity'
 import { nanoid } from 'nanoid'
 import { ForbiddenException, NotFoundException } from '@nestjs/common'
+import { PaginationDto } from '@/common/pagination'
 
 @Injectable()
 export class CommentsService {
@@ -47,13 +48,16 @@ export class CommentsService {
     return newComment
   }
 
-  findAll(publication_id: string) {
-    return this.comments.filter((publication) => publication_id === publication.id)
+  findAllByPublication(publication_id: string, pagination: PaginationDto) {
+    const filtered = this.comments.filter((publication) => publication_id === publication.id)
+    const skip = pagination.page_number * pagination.page_size
+    const paginated = filtered.slice(skip, skip + pagination.page_size)
+    return paginated
   }
 
   findOne(id: string): Comment {
     const result = this.comments.find((comment) => comment.id === id)
-    if (!result) throw new NotFoundException('publication not found')
+    if (!result) throw new NotFoundException('comment not found')
     return result
   }
 

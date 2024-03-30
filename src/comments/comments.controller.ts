@@ -2,11 +2,12 @@ import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 import { Controller } from '@nestjs/common/decorators/core'
-import { Body, Get, Param, Delete, HttpCode, Patch, Post } from '@nestjs/common/decorators/http'
+import { Body, Get, Param, Delete, HttpCode, Patch, Post, Query } from '@nestjs/common/decorators/http'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { SkipAuth } from '@/auth/decorators/skip-auth.decorator'
 import { AuthUser } from '@/auth/decorators/auth-user.decorator'
 import { JwtUserEntity } from '@/auth/entities/jwt-user.entity'
+import { PaginationDto } from '@/common/pagination'
 
 @ApiTags('comments')
 @Controller('/publications/:publication_id/comments')
@@ -21,8 +22,8 @@ export class CommentsController {
 
   @SkipAuth()
   @Get()
-  findAll(@Param('publication_id') publication_id: string) {
-    return this.commentsService.findAll(publication_id)
+  findAll(@Param('publication_id') publication_id: string, @Query() pagination: PaginationDto) {
+    return this.commentsService.findAllByPublication(publication_id, pagination)
   }
 
   @SkipAuth()
