@@ -6,4 +6,4 @@ import { Module } from '@nestjs/common/decorators/modules'
   controllers: [PublicationsController],
   providers: [PublicationsService]
 })
-export class publicationsModule {}
+export class PublicationsModule {}
