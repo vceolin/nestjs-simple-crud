@@ -102,14 +102,14 @@ export class PublicationsService {
     return result
   }
 
-  update(publication: UpdatePublicationDto, user_id: string) {
+  update(id: string, publication: UpdatePublicationDto, user_id: string) {
     this.publications.map((existingpublication) => {
-      if (existingpublication.id !== publication.id) return existingpublication
+      if (existingpublication.id !== id) return existingpublication
       if (existingpublication.user_id !== user_id)
         throw new ForbiddenException("You can't update a publication that not yours.")
       return { existingpublication, ...publication }
     })
-    return this.findOne(publication.id)
+    return this.findOne(id)
   }
 
   remove(id: string, user_id: string) {

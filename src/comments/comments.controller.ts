@@ -16,8 +16,12 @@ export class CommentsController {
 
   @ApiBearerAuth()
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto, @AuthUser() user: JwtUserEntity) {
-    return this.commentsService.create(createCommentDto, user.id)
+  create(
+    @Param('publication_id') publication_id: string,
+    @Body() createCommentDto: CreateCommentDto,
+    @AuthUser() user: JwtUserEntity
+  ) {
+    return this.commentsService.create(publication_id, createCommentDto, user.id)
   }
 
   @SkipAuth()
@@ -28,26 +32,31 @@ export class CommentsController {
 
   @SkipAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('publication_id') publication_id: string, @Param('id') id: string) {
     return this.commentsService.findOne(id)
   }
 
   @ApiBearerAuth()
   @Patch(':id')
-  update(@Body() updateCommentDto: UpdateCommentDto, @AuthUser() user: JwtUserEntity) {
-    return this.commentsService.update(updateCommentDto, user.id)
+  update(
+    @Param('publication_id') publication_id: string,
+    @Param('id') id: string,
+    @Body() updateCommentDto: UpdateCommentDto,
+    @AuthUser() user: JwtUserEntity
+  ) {
+    return this.commentsService.update(id, updateCommentDto, user.id)
   }
 
   @ApiBearerAuth()
   @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string, @AuthUser() user: JwtUserEntity) {
+  remove(@Param('publication_id') publication_id: string, @Param('id') id: string, @AuthUser() user: JwtUserEntity) {
     return this.commentsService.remove(id, user.id)
   }
 
   @ApiBearerAuth()
   @Get('like/:id')
-  like(@Param('id') id: string, @AuthUser() user: JwtUserEntity) {
+  like(@Param('publication_id') publication_id: string, @Param('id') id: string, @AuthUser() user: JwtUserEntity) {
     return this.commentsService.like(id, user.id)
   }
 }

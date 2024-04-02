@@ -33,11 +33,12 @@ export class CommentsService {
     ]
   }
 
-  create(comment: CreateCommentDto, user_id: string) {
+  create(publication_id: string, comment: CreateCommentDto, user_id: string) {
     const now = new Date()
     const id = nanoid(7)
     const newComment = {
       ...comment,
+      publication_id,
       id,
       user_id,
       liked_by_user_ids: [],
@@ -61,14 +62,14 @@ export class CommentsService {
     return result
   }
 
-  update(comment: UpdateCommentDto, user_id: string): Comment {
+  update(id: string, comment: UpdateCommentDto, user_id: string): Comment {
     this.comments.map((existingComment) => {
-      if (existingComment.id !== comment.id) return existingComment
+      if (existingComment.id !== id) return existingComment
       if (existingComment.user_id !== user_id)
         throw new ForbiddenException("You can't update a comment that not yours.")
       return { existingComment, ...comment }
     })
-    return this.findOne(comment.id)
+    return this.findOne(id)
   }
 
   remove(id: string, user_id: string) {

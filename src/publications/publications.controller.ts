@@ -40,8 +40,12 @@ export class PublicationsController {
 
   @ApiBearerAuth()
   @Patch(':id')
-  update(@Body() updatePublicationDto: UpdatePublicationDto, @AuthUser() user: JwtUserEntity): ReturnPublicationDto {
-    const publication = this.publicationsService.update(updatePublicationDto, user.id)
+  update(
+    @Param('id') id: string,
+    @Body() updatePublicationDto: UpdatePublicationDto,
+    @AuthUser() user: JwtUserEntity
+  ): ReturnPublicationDto {
+    const publication = this.publicationsService.update(id, updatePublicationDto, user.id)
     return this.applyHateoas(publication)
   }
 

@@ -35,7 +35,7 @@ export class UsersController {
   }
 
   @ApiBearerAuth()
-  @Patch(':id')
+  @Patch()
   update(@Body() updateProdutoDto: UpdateUserDto, @AuthUser() user: JwtUserEntity): Omit<User, 'password'> {
     return this.usersService.update(updateProdutoDto, user.id)
   }
